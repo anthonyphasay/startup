@@ -1,4 +1,5 @@
 # Your startup name here
+Rate my Dog
 
 [My Notes](notes.md)
 
