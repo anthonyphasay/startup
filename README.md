@@ -25,13 +25,13 @@ Here is how you you can view other's favorites.
 
 ```mermaid
 sequenceDiagram
-    actor You
-    actor Friend
-    actor Website
-    actor Server
-    You -->>Website -->>Server
-    Server->>Website: Favorites
-    Friend->>Website
+    actor You;
+    actor Friend;
+    actor Website;
+    actor Server;
+    You -->>Website -->>Server;
+    Server->>Website: Favorites;
+    Friend->>Website;
 ```
 
 ### Key features
