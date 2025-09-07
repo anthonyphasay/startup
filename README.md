@@ -29,9 +29,9 @@ sequenceDiagram
     actor Friend
     participant Website
     participant Server
-    You->>Website
-    Website->>Server
-    Friend->>Website
+    You->>Website: Login
+    Website->>Server: Check Database
+    Friend->>Website: Check other favorites
 ```
 
 ### Key features
