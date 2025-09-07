@@ -26,8 +26,8 @@ Here is how you you can view other's favorites.
 ```mermaid
 sequenceDiagram
     actor You
-    actor Friend
     participant Website
+    actor Friend
     participant Server
     You->>Website: Login
     Friend->>Website: Check other favorites
