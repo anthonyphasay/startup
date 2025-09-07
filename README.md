@@ -31,7 +31,7 @@ sequenceDiagram
     participant Server
     You->>Website: Login
     Friend->>Website: Check other favorites
-    Website->>Server: Check Database
+    Note over Website, Server: Check Database
     
 ```
 
