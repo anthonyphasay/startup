@@ -19,7 +19,7 @@ create a login to save your recipes! The website will feature multiple types of 
 
 ### Design
 
-![Design image](Soups Galore.png)
+![Design image](/Soups%20Galore.png)
 
 Here is how you you can view other's favorites.
 
@@ -29,7 +29,7 @@ sequenceDiagram
     actor Friend
     actor Website
     actor Server
-    You->>Website->>Server
+    You -->>Website -->>Server
     Server->>Website: Favorites
     Friend->>Website
 ```
