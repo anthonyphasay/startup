@@ -30,8 +30,9 @@ sequenceDiagram
     participant Website
     participant Server
     You->>Website: Login
-    Website->>Server: Check Database
     Friend->>Website: Check other favorites
+    Website->>Server: Check Database
+    
 ```
 
 ### Key features
