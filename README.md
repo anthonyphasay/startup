@@ -1,62 +1,62 @@
-# Your startup name here
-Rate my Dog
+# Soups galore
 
-[My Notes](notes.md)
 
-A brief description of the application here. It is a website where you can rate dogs. 
-
-> [!NOTE]
->  This is a template for your startup application. You must modify this `README.md` file for each phase of your development. You only need to fill in the section for each deliverable when that deliverable is submitted in Canvas. Without completing the section for a deliverable, the TA will not know what to look for when grading your submission. Feel free to add additional information to each deliverable description, but make sure you at least have the list of rubric items and a description of what you did for each item.
-
-> [!NOTE]
->  If you are not familiar with Markdown then you should review the [documentation](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) before continuing.
-
-## 🚀 Specification Deliverable
-
-> [!NOTE]
->  Fill in this sections as the submission artifact for this deliverable. You can refer to this [example](https://github.com/webprogramming260/startup-example/blob/main/README.md) for inspiration.
+## Specification Deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] Proper use of Markdown
-- [ ] A concise and compelling elevator pitch
-- [ ] Description of key features
-- [ ] Description of how you will use each technology
-- [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [x] Proper use of Markdown
+- [x] A concise and compelling elevator pitch
+- [x] Description of key features
+- [x] Description of how you will use each technology
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Have you ever feel cold and want to warm something up? Do you struggle with cooking and want some instructions? Well this website is for you!
+With multiple recipes for different types of soup, you will be able to find the right one that your stomach is grumbling for. You can even
+create a login to save your recipes! The website will feature multiple types of soups that you can choose from!
 
 ### Design
 
-![Design image](placeholder.png)
+![Design image](Soups Galore.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Here is how you you can view other's favorites.
 
 ```mermaid
 sequenceDiagram
     actor You
+    actor Friend
     actor Website
-    You->>Website: Replace this with your design
+    actor Server
+    You->>Website->>Server
+    Server->>Website: Favorites
+    Friend->>Website
 ```
 
 ### Key features
 
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+- Secure login using https
+- Display pictures of soup
+- Change between different recipes that users can click on
+- Check heart to favorite a soup
+- Add a favorite section that users can see hearted recipes
+- Show ingredients along with instructions on cooking
+- A tab to show different world soups
 
 ### Technologies
 
-I am going to use the required technologies in the following ways.
+I am going to use the required technologies in the following ways:
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **HTML** - Use HTML as the backbone structure for application. There will be four pages, a login page, home page, world soup page, and profile page.
+- **CSS** - Using blue and white color scheme for home page. Incorporate good whitespacing.
+- **React** - This will provide logins, favoriting functionality, displaying of soup pictures and proper routing.
+- **Service** - Backend service
+    - Login
+    - Retrieval of favorite choices
+    - Links to video instructions
+- **DB/Login** - Store users, favorites in database. Register/Login users. Store credentials in database. Need to have account to favorite.
+- **WebSocket** - View top favorite recipes of general users.
 
 ## 🚀 AWS deliverable
 
