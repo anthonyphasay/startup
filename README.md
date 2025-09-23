@@ -69,15 +69,16 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - 5 pages, a home page, account page for login, world page that have 3 sub pages for different continents
+- [x] **Proper HTML element usage** - Added the required elements, BODY, NAV, MAIN, HEADER, FOOTER for all pages
+- [x] **Links** - All of the links will go to the correct pages, added external links that will open a new tab
+- [x] **Text** - Recipes where presented in the appropriate boxes, seperated by font sizes
+- [x] **3rd party API placeholder** - This will be on the homepage that will have inpsiring quotes to warm the soup. 3rd 
+party API that holds random inspirational/warm quotes
+- [x] **Images** - Added images for the respective recipes
+- [x] **Login placeholder** - Added this to account page
+- [x] **DB data placeholder** - Added to account page, the db will store/retrieve login information
+- [ ] **WebSocket placeholder** - This will be in account page to ask if the user wants notifications
 
 ## 🚀 CSS deliverable
 
