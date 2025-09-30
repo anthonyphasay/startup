@@ -4,6 +4,7 @@ img {
 }
 
 body {
+    margin: 0;
     background-color: #FCF1CF;
 }
 
@@ -17,7 +18,9 @@ body {
   display: flex;
   justify-content: space-between;
   background-color: #333333;
-  padding: 5px 5px;
+  padding: 0 10px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
 .menu__links-list{
@@ -43,13 +46,15 @@ nav{
     /* background:rgb(53, 66, 185); */
     height: 70px;
     width: 100%;
-    
+    background-color: #111111;
+    margin: 0 10px;
+    padding: 0 auto;
 }
 
 nav ul {
   list-style-type: none;
-  margin: 0;
-  padding: 0;
+  margin: 0 10px;
+  padding: 0 auto;
   overflow: hidden;
   background-color: #333333;
 }
