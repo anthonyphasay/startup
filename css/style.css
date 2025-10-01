@@ -5,14 +5,20 @@ img {
     position: relative;
     width: 50%;
     height: 50%;
+    border: 1px solid black;
     /* max-width: 100%; 
     max-height: 100%; */
-    display: block;
-    margin:0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    overflow-x: hidden;
+
 }
 
 body {
     margin: 0;
+    font-size: 1rem;
     /* background-color: #FCF1CF; */
 }
 
@@ -24,8 +30,9 @@ body {
   width: 100%;
 } */
 
-title {
+a.title {
   color: white;
+
 }
 
 .menu{
@@ -114,6 +121,7 @@ nav ul li a:hover {
   margin: 10px 10px;
 }
 
+
 p {
   font-size: larger;
 }
@@ -162,3 +170,52 @@ li.dropdown {
   display: block;
 }
 
+.title-logo {
+  width: 213.933px;
+  padding-bottom: 0px;
+}
+/* small screens */
+@media (max-width: 768px) {
+  a.title {
+    margin: 0 10px;
+    font-size: 2.5vw; /* Example: smaller size for smaller screens, adjust as needed */
+  }
+  a.home {
+    font-size: 2vw;
+  }
+  a.dropbtn {
+    font-size: 2vw;
+  }
+  a.account {
+    font-size: 2vw;
+  }
+  nav ul li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 35px 10px;
+  text-decoration: none;
+}
+
+@media (max-width: 375px) {
+  a.title {
+    margin: 0 10px;
+    font-size: 2vw; /* Example: smaller size for smaller screens, adjust as needed */
+  }
+  a.home {
+    font-size: 2vw;
+  }
+  a.dropbtn {
+    font-size: 2vw;
+  }
+  a.account {
+    font-size: 2vw;
+  }
+  nav ul li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 35px 10px;
+  text-decoration: none;
+}}
+}
