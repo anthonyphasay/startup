@@ -174,6 +174,22 @@ li.dropdown {
   width: 213.933px;
   padding-bottom: 0px;
 }
+
+h1.asia-description {
+  text-align: center;
+}
+
+h1.northamerica-description {
+  text-align: center;
+}
+
+h1.europe {
+  text-align: center;
+}
+
+p.world-description {
+  text-align: center;
+}
 /* small screens */
 @media (max-width: 768px) {
   a.title {
