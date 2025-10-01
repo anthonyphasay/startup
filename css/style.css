@@ -1,4 +1,6 @@
-
+header {
+  height: 80px;
+}
 img {
     max-width: 100%; 
     max-height: 100%;
@@ -24,6 +26,7 @@ title {
 }
 
 .menu{
+  height: 80px;
   display: flex;
   justify-content: space-between;
   /* background-color: #333333; */
