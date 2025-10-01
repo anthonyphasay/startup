@@ -8,46 +8,51 @@
     <link rel="icon" type="image/x-icon" href="images/soup.png">
 </head>
 <body>
-    <div class = "container">
+    <!-- <div class = "container"> -->
         <header>
         <nav class="menu">
         <div>
         <!-- <a href="index.html"><h1>Soups Galore</h1></a> -->
-         <h1 style="color: white;">Soups Galore</h1>
+         <a href="index.html" style="text-decoration: none;"><h1 style="color: white;" class="title">Soups Galore</h1></a>
         </div>
         <!-- <h1>Soups Galore</h1> -->
          <div class="menu_links">
              <ul class="menu_links-list">
             <li><a href="index.html">Home</a></li>
-            <li><a href="world.html">World</a></li>
-            <li><a href="asia.html">Asia</a></li>
-            <li><a href="northAmerica.html">North America</a></li>
-            <li><a href="europe.html">Europe</a></li>
+            <li class="dropdown">
+                <a href="world.html" class="dropbtn">World</a>
+                <div class="dropdown-content">
+                <a href="asia.html">Asia</a>
+                <a href="northAmerica.html">North America</a>
+                <a href="europe.html">Europe</a>
+                </div>
+            </li>
             <li style="float: right;"><a href="account.html">Account</a></li>
             </ul>
          </div>
         </nav>
     </header>
-    </div>
+    <!-- </div> -->
     
-
-    <div class="welcome">
-        <h2>Welcome</h2>
-        <p>This is the place for all things soup</p>
-        <a href="asia.html"><img src="images/pho.jpg" alt="pho">
-    </a>
-</div>
-
-</div>
     <div>
+        <main class="world-info">
+        <h2 style="text-align: center;">Welcome</h2>
+        <p style="text-align: center;">This is the place for all things soup</p>
+        <a href="asia.html"><img src="images/pho.jpg" alt="pho"></a>
+        </main>
+      
+</div>
+
+</div>
+    <div class="footer" style="text-align: center;">
+        <footer>
         <h1>3RD PARTY API PLACEHOLDER</h1>
             <a href="https://github.com/anthonyphasay/startup" target="_blank"><h2>Github.com</h2></a>
 
         <!-- <a href="https://www.linkedin.com/in/anthony-phasay/" target="_blank">Linkedin</a> | 
         <a href="https://tonyphasay.github.io/personal/" target="_blank">Personal Website</a> -->
-    </div>
-    <footer>
         <p>© 2025 Tony Phasay @ Soups Galore</p>
-    </footer>
+        </footer>
+    </div>
 </body>
 </html>

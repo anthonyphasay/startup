@@ -9,31 +9,34 @@
 
 </head>
 <body>
-        <div class = "container">
         <header>
         <nav class="menu">
         <div>
-        <a href="index.html"><img class="navbar-brand" src="images/rm244batch2-nunny-09a.jpg" alt="HomePage"></a>
+        <!-- <a href="index.html"><h1>Soups Galore</h1></a> -->
+         <a href="index.html" style="text-decoration: none;"><h1 style="color: white;" class="title">Soups Galore</h1></a>
         </div>
         <!-- <h1>Soups Galore</h1> -->
          <div class="menu_links">
              <ul class="menu_links-list">
             <li><a href="index.html">Home</a></li>
-            <li><a href="world.html">World</a></li>
-            <li><a href="asia.html">Asia</a></li>
-            <li><a href="northAmerica.html">North America</a></li>
-            <li><a href="europe.html">Europe</a></li>
+            <li class="dropdown">
+                <a href="world.html" class="dropbtn">World</a>
+                <div class="dropdown-content">
+                <a href="asia.html">Asia</a>
+                <a href="northAmerica.html">North America</a>
+                <a href="europe.html">Europe</a>
+                </div>
+            </li>
             <li style="float: right;"><a href="account.html">Account</a></li>
             </ul>
          </div>
         </nav>
     </header>
-    </div>
-    <main>
+    <main class="world-info">
         <h1>Asia</h1>
         <h3>Pho</h3>
             <img src="/images/phoRecipe.jpg" alt="pho recipe">
-            <p>Pho from Ho Chi Min City</p>
+            <p style="text-align: center;">Pho from Ho Chi Min City</p>
             <h3>Ingredients</h3>
             <td>
                 <li>Oxtail</li>
@@ -68,9 +71,10 @@
                 <br>
                 Enjoy!
     </main>
-    
-    <footer>
+    <div class="footer" style="text-align: center;">
+        <footer>
         <p>© 2025 Tony Phasay @ Soups Galore</p>
     </footer>
+    </div>
 </body>
 </html>
