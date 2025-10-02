@@ -78,7 +78,7 @@ party API that holds random inspirational/warm quotes
 - [x] **Images** - Added images for the respective recipes
 - [x] **Login placeholder** - Added this to account page
 - [x] **DB data placeholder** - Added to account page, the db will store/retrieve login information
-- [ ] **WebSocket placeholder** - This will be in account page to ask if the user wants notifications
+- [x] **WebSocket placeholder** - This will be in account page to ask if the user wants notifications
 
 ## 🚀 CSS deliverable
 
