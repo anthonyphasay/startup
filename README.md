@@ -84,12 +84,13 @@ party API that holds random inspirational/warm quotes
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Header, footer, and main content body** - I did not complete this part of the deliverable.
-- [ ] **Navigation elements** - I did not complete this part of the deliverable.
-- [ ] **Responsive to window resizing** - I did not complete this part of the deliverable.
-- [ ] **Application elements** - I did not complete this part of the deliverable.
-- [ ] **Application text content** - I did not complete this part of the deliverable.
-- [ ] **Application images** - I did not complete this part of the deliverable.
+- [x] **Header, footer, and main content body** - I added headers that made up the navbar, footer for the copyright credentials, and main content body that has all images and elements center aligned
+- [x] **Navigation elements** - Navigation elements are in the navbar and includes a dropdown menu for contents within 'world' tab
+- [x] **Responsive to window resizing** - This website can adjust to sizes as small as the Iphone SE with elements and images adjusting automatically
+- [x] **Application elements** - There are elements in here that are adjusted to fit the screen but I opted for cleaner look
+- [x] **Application text content** - The paragraghs and headers are aligned center for a cleaner asthetic
+- [x] **Application images** - Images have been moved to the center and fitted for the screen. Since they all had different sizes, I made
+them all fit 50% of the screen and added some bordering to them.
 
 ## 🚀 React part 1: Routing deliverable
 
