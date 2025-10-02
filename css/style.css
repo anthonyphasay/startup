@@ -187,9 +187,19 @@ h1.europe {
   text-align: center;
 }
 
+
 p.world-description {
   text-align: center;
+  font-size: 25px;
 }
+
+hr {
+  border: dotted #EAF6F6 6px;
+  border-bottom: none;
+  width: 4%;
+  margin: 80px auto;
+}
+
 /* small screens */
 @media (max-width: 768px) {
   a.title {
