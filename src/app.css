@@ -36,14 +36,14 @@ a.title {
 }
 
 .menu{
-  height: 95px;
+  height: 96px;
   display: flex;
   justify-content: space-between;
   /* background-color: #333333; */
   background-color: #3e729a;
   padding: 0 0px;
   margin: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .menu__links-list{
@@ -67,7 +67,7 @@ a.title {
 
 .nav{
     /* background:rgb(53, 66, 185); */
-    height: 70px;
+    height: 95px;
     width: 100%;
     background-color: #111111;
     margin: 0;
@@ -97,6 +97,7 @@ nav ul li a {
 nav ul li a:hover {
   /* background-color: #111111; */
   background-color: #264653;
+  height: 40px;
 }
 
 .welcome {
@@ -136,7 +137,12 @@ li a, .dropbtn {
   text-align: center;
   padding: 48px 10px;
   text-decoration: none;
-  /* height: 15px; */
+  /* height: 15px;*/
+}
+
+.dropdown {
+  margin: 45px auto;
+  background-color: transparent !important;
 }
 
 li a:hover, .dropdown:hover .dropbtn {
@@ -147,16 +153,20 @@ li a:hover, .dropdown:hover .dropbtn {
   margin-bottom: 10px;
 } */
 
-.dropdown-content {
+.custom-dropdown {
+  position: relative;
+}
+
+.custom-dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: #264653;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
-.dropdown-content a {
+.custom-dropdown-content a {
   color: black;
   padding: 20px 16px;
   text-decoration: none;
@@ -164,9 +174,9 @@ li a:hover, .dropdown:hover .dropbtn {
   text-align: left;
 }
 
-.dropdown-content a:hover {background-color: #f1f1f1;}
+.custom-dropdown-content a:hover {background-color: #f1f1f1;}
 
-.dropdown:hover .dropdown-content {
+.custom-dropdown:hover .custom-dropdown-content {
   display: block;
 }
 
@@ -192,13 +202,25 @@ h1.europe {
 p.world-description {
   text-align: center;
   font-size: 25px;
+    position: relative;
+    width: 50%;
+    height: 50%;
+    /* border: 1px solid black; */
+    /* max-width: 100%; 
+    max-height: 100%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    overflow-x: hidden;
 }
 
 hr {
-  border: dotted #EAF6F6 6px;
+  border: dotted #EAF6F6 8px;
+  border-color: #111111;
   border-bottom: none;
   width: 4%;
-  margin: 80px auto;
+  margin: 20px auto;
 }
 
 /* small screens */

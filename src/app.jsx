@@ -1,5 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import './app.css';
 
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
@@ -9,6 +11,7 @@ import { Europe } from './europe/europe';
 import { NorthAmerica } from './northAmerica/northAmerica';
 import { World } from './world/world';
 import { Home } from './home/home';
+import { Button } from 'react-bootstrap';
 
 export default function App() {
   return ( 
@@ -17,18 +20,19 @@ export default function App() {
         <header>
         <nav className="menu">
         <div className="title-logo">
-         <NavLink to="/" style= {{ textDecoration: 'none' }} className="title"><h1>Soups Galore</h1></NavLink>
+         <NavLink to="/" style= {{ textDecoration: 'none' }} className="title"><h1>Soups Galore </h1></NavLink>
         </div>
          <div className="menu_links">
              <ul className="menu_links-list">
             <li><NavLink to="/" className="home">Home</NavLink></li>
-            <li className="dropdown">
-                <NavLink to="world" className="dropbtn">World</NavLink>
-                <div className="dropdown-content">
+            <li className="custom-dropdown">
+            <DropdownButton id="dropdown-basic-button" title="World" className="dropdown">Overview</DropdownButton>
+            {/* <Button to="world" className="dropbtn"></Button> */}
+            {/* <div className="custom-dropdown-content">
                 <NavLink to="asia">Asia</NavLink>
                 <NavLink to="northAmerica">North America</NavLink>
                 <NavLink to="europe">Europe</NavLink>
-                </div>
+            </div> */}
             </li>
             <li style={{ float: 'right' }}><NavLink className="account" to="account">Account</NavLink></li>
             </ul>
