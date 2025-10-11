@@ -96,9 +96,9 @@ them all fit 50% of the screen and added some bordering to them.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Bundled using Vite** - I did not complete this part of the deliverable.
-- [ ] **Components** - I did not complete this part of the deliverable.
-- [ ] **Router** - I did not complete this part of the deliverable.
+- [x] **Bundled using Vite** - Installed Vite and bundled to run the local apps.
+- [x] **Components** - Added a NavDropdown menu for the 'world' section. Added the different pages that users can navigate to within the dropdown box.
+- [x] **Router** - All dropdown menu item, navbar items and most pictures will route to a different src page.
 
 ## 🚀 React part 2: Reactivity deliverable
 
