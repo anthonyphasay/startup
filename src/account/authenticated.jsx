@@ -15,10 +15,14 @@ export function Authenticated(props) {
 
   return (
     <div>
+        <img src="images/greeting.jpg" alt="Nightmare Soup" className='login-image' />
       <div className='playerName'>{props.userName}</div>
       <div className='button-group'>
       <Button variant='primary' onClick={() => navigate('/')}>
         Enter
+      </Button>
+      <Button variant='primary' onClick={() => navigate('/favorites')}>
+        Favorites
       </Button>
       <Button variant='secondary' onClick={() => logout()}>
         Logout

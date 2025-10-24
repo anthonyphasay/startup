@@ -1,15 +1,52 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 
 export function NorthAmerica() {
+  const navigate = useNavigate();
+
+  const addToFavorites = () => {
+    const soup = {
+      id: 'chickenNoodle',
+      name: 'Chicken Noodle Soup',
+      region: 'North America',
+      image: '/images/chickennoddle2.jpg',
+      path: '/northAmerica'
+    };
+
+    const savedFavorites = localStorage.getItem('favorites');
+    let favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
+
+    const alreadyExists = favorites.some(fav => fav.id === soup.id);
+    
+    if (!alreadyExists) {
+      favorites.push(soup);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      alert('Added to favorites!');
+    } else {
+      alert('Already in favorites!');
+    }
+    navigate('/favorites');
+  };
   return (
     <main class="world-info">
-        <h1 style={{textAlign: "center"}}>United States of America</h1>
-        <h2 style={{textAlign: "center"}}>Chicken Noodle Soup</h2>
+      <div style={{ position: 'relative', textAlign: 'center', marginBottom: '20px' }}>
+    <div>
+      <h1 style={{ margin: 0 }}>North America</h1>
+      <h3 style={{ margin: 0 }}>Chicken Noodle Soup</h3>
+    </div>
+    <Button 
+      variant='primary' 
+      onClick={addToFavorites}
+      style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)' }}
+    >
+      Favorite
+    </Button>
+    </div>
         <img src="images/chickennoddle2.jpg" class="chicken" />
         <h2>Ingredients</h2>
-        <p>
-            *note: These will be approximate and not exact! 
-            <td>
+                  *note: These will be approximate and not exact! 
+            <ul style={{ textAlign: 'center', listStylePosition: 'inside', listStyle: 'none', padding: 0 }}>
                 <li>2 large of chicken breast</li>
                 <li>Carrots</li>
                 <li>Peas</li>
@@ -25,8 +62,8 @@ export function NorthAmerica() {
                 <li>Oregeno</li>
                 <li>Chicken boulion cube</li>
                 <li>Optional: Cilantro</li>
-            </td>
-        </p>
+            </ul>
+
         <h2>Instructions</h2>
         <p>In a medium size pot. Add water half way, add 1-2 chicken boulion cube. Place 2 chicken breast in water.
             Bring water to boil. Add chicken breast and cover with lid. Cook until you can pull 

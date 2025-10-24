@@ -1,13 +1,52 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 
 export function Europe() {
+  const navigate = useNavigate();
+
+  const addToFavorites = () => {
+    const soup = {
+      id: 'weddingSoup',
+      name: 'Italian Wedding Soup',
+      region: 'Europe',
+      image: '/images/italian noodle soup.jpg',
+      path: '/europe'
+    };
+
+    const savedFavorites = localStorage.getItem('favorites');
+    let favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
+
+    const alreadyExists = favorites.some(fav => fav.id === soup.id);
+    
+    if (!alreadyExists) {
+      favorites.push(soup);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      alert('Added to favorites!');
+    } else {
+      alert('Already in favorites!');
+    }
+    navigate('/favorites');
+  };
   return (
     <main class="world-info">
-        <h2 style={{textAlign: "center"}}>Italian Wedding Soup</h2>
+      <div style={{ position: 'relative', textAlign: 'center', marginBottom: '20px' }}>
+    <div>
+      <h1 style={{ margin: 0 }}>Europe</h1>
+      <h3 style={{ margin: 0 }}>Italian Wedding Soup</h3>
+    </div>
+    <Button 
+      variant='primary' 
+      onClick={addToFavorites}
+      style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)' }}
+    >
+      Favorite
+    </Button>
+  </div>
         <img src="images/italian noodle soup.jpg" alt="" />
         <h2>Ingredients</h2>
-        <td>
-            <ul>
+
+            <ul style={{ textAlign: 'center', listStylePosition: 'inside', listStyle: 'none', padding: 0 }}>
                 <li>Lean Ground Beef</li>
                 <li>Ground Pork</li>
                 <li>Spicy Italian Ground Beef (if not making meatballs from scratch)</li>
@@ -23,7 +62,6 @@ export function Europe() {
                 <li>Olive Oil</li>
                 <li>Low sodium chicken broth</li>
             </ul>
-        </td>
         <h2>Instructions</h2>
         <p>
             First make mini meatball mixture by adding beef and pork in a mixing bowl. Add crumbs, eggs, parsley, oregano, parmesan, 1 tsp salt

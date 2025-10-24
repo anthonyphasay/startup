@@ -23,11 +23,11 @@ export function Unauthenticated(props) {
     <img src="images/nightmareSoup.jpg" alt="Nightmare Soup" className='login-image' />
       <div>
         <div className='input-group mb-3'>
-          <span className='input-group-text'>@</span>
+          <span className='input-group-text'>Username@</span>
           <input className='form-control' type='text' value={userName} onChange={(e) => setUserName(e.target.value)} placeholder='your@email.com' />
         </div>
         <div className='input-group mb-3'>
-          <span className='input-group-text'>🔒</span>
+          <span className='input-group-text'>Password🔒</span>
           <input className='form-control' type='password' onChange={(e) => setPassword(e.target.value)} placeholder='password' />
         </div>
         <div className='button-group'>
