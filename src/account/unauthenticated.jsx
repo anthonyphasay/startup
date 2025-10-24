@@ -20,6 +20,7 @@ export function Unauthenticated(props) {
 
   return (
     <>
+    <img src="images/nightmareSoup.jpg" alt="Nightmare Soup" className='login-image' />
       <div>
         <div className='input-group mb-3'>
           <span className='input-group-text'>@</span>

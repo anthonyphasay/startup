@@ -66,7 +66,7 @@ export function Account({ userName, authState, onAuthChange }) {
 }
 
 // database placeholder
-localStorage.setItem('userName', 'Tonathan');
+localStorage.setItem('userName', '');
 const userName = localStorage.getItem('userName');
 
 setInterval(() => {

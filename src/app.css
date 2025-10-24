@@ -290,6 +290,28 @@ hr {
 }
 
 
+.account {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* min-height: 100vh; */
+  padding: 20px;
+}
+
+.account-Header {
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.login-image {
+  border: 3px solid #333;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
 /* small screens */
 @media (max-width: 768px) {
