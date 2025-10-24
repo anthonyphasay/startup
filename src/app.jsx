@@ -23,37 +23,15 @@ import { Europe } from './europe/europe';
 import { NorthAmerica } from './northAmerica/northAmerica';
 import { World } from './world/world';
 import { Home } from './home/home';
+import { AuthState } from './account/authState';
 // import { Button } from 'react-bootstrap';
 
 export default function App() {
+    const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
+  const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
+  const [authState, setAuthState] = React.useState(currentAuthState);
   return ( 
   <BrowserRouter>
-  {/* <div className="body text-dark">
-    <Navbar variant='dark' bg='dark' expand='lg'>
-              <Container fluid>
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbar-dark-example" />
-        <Navbar.Collapse id="navbar-dark-example">
-          <Nav>
-            <NavDropdown
-              id="nav-dropdown-dark-example"
-              title="Dropdown"
-              menuVariant="dark"
-            >
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar> */}
         <header>
         <nav className="menu">
         <div className="title-logo">
@@ -71,12 +49,6 @@ export default function App() {
                 <NavDropdown.Item as={NavLink} to="/europe">Europe</NavDropdown.Item>
                 </NavDropdown.Item>
             </NavDropdown>
-            {/* <Button to="world" className="dropbtn"></Button> */}
-            {/* <div className="custom-dropdown-content">
-                <NavLink to="asia">Asia</NavLink>
-                <NavLink to="northAmerica">North America</NavLink>
-                <NavLink to="europe">Europe</NavLink>
-            </div> */}
              </li>
             <li style={{ float: 'right' }}><NavLink className="account" to="account">Account</NavLink></li>
             </ul>
@@ -84,24 +56,31 @@ export default function App() {
         </nav>
     </header>
 
+
     <Routes>
     <Route path='/' element={<Home />} exact />
-    <Route path='/account' element={<Account />} />
+    {/* <Route path='/account' element={<Account />} /> */}
     <Route path='/asia' element={<Asia />} />
     <Route path='/europe' element={<Europe />} />
     <Route path='/northAmerica' element={<NorthAmerica />} />
     <Route path='/world' element={<World />} />
     {/* <Route path='/home' element={<Home />} /> */}
     <Route path='*' element={<NotFound />} />
+    <Route
+        path='/account'
+        element={
+          <Account
+            userName={userName}
+            authState={authState}
+            onAuthChange={(userName, authState) => {
+              setAuthState(authState);
+              setUserName(userName);
+            }}
+          />
+        }
+      />
     </Routes>
 
-        {/* <main className="world-info">
-        <h2 style={{textAlign: 'center'}}>Welcome</h2>
-        <p style={{textAlign: 'center'}}>This is the place for all things soup. <br/><br/>If you want to save your favorite recipes, you can click on Account
-        and create one! <br/> When you log in, you can always have your favorite soup ready so you don't have to search it all the time. <br/><br/>
-    We have soups from around the world and will continually add more 😋</p>
-        <a href="asia.html"><img src= {"images/pho.jpg"} alt="pho" /></a>
-        </main> */}
     <div className="footer" style={{textAlign: 'center'}}>
         <footer>
         {/* <h1>3RD PARTY API PLACEHOLDER</h1> */}
