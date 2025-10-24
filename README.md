@@ -104,8 +104,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [x] **All functionality implemented or mocked out** - I added a favorites tab where you can see your favorite soups. Then I added a "favorite" button to all recipes; when clicked, it will add a card to favorite section. You can remove cards and go to recipe pages. Added space for database and apis.
+- [x] **Hooks** - In Unauthenicated state, I used 'useState' hook to get username and password. In app.jsx, I used 'useEffect' Hook for local storage of 'username'. For the every recipe page and authenticated.jsx, I used a 'useNavigate' Hook to route to proper page.
 
 ## 🚀 Service deliverable
 
