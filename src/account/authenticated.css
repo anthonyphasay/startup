@@ -3,3 +3,10 @@
   font-size: 1.5em;
   padding: 0.5em;
 }
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}

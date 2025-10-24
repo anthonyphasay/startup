@@ -16,12 +16,14 @@ export function Authenticated(props) {
   return (
     <div>
       <div className='playerName'>{props.userName}</div>
+      <div className='button-group'>
       <Button variant='primary' onClick={() => navigate('/')}>
         Enter
       </Button>
       <Button variant='secondary' onClick={() => logout()}>
         Logout
       </Button>
+      </div>
     </div>
   );
 }
