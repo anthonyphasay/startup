@@ -14,6 +14,12 @@ export function Home() {
     );
 }
 
+function getQuote() {
+  // This will be replaced with a 3rd party service call
+  return { String: 'Inspirational Quotes' };
+}
+const weather = getQuote();
+
 function NotFound() {
   return <main className="container-fluid bg-secondary text-center">404: Return to sender. Address unknown.</main>;
 }
