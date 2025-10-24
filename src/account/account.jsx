@@ -2,6 +2,7 @@ import React from 'react';
 
 export function Account() {
   return (
+    
     <main className="world-info">
             <h2>Login</h2>
             <label for="first">Username:</label>
@@ -19,3 +20,13 @@ export function Account() {
     </main>
   );
 }
+
+// database placeholder
+localStorage.setItem('userName', 'Tom');
+const userName = localStorage.getItem('userName');
+
+setInterval(() => {
+  // This will be replaced with WebSocket messages
+  const userName = `User-${Math.floor(Math.random() * 100)}`;
+  displayPeerMessage({ msg: 'Hello', from: userName });
+}, 1000);
