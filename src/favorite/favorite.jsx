@@ -15,11 +15,16 @@ export function Favorite() {
     }
   }, []);
 
-  const removeFavorite = (id) => {
+const removeFavorite = (id, name) => {
+  const confirmed = window.confirm(`Remove "${name}" from favorites?`);
+  
+  if (confirmed) {
     const updatedFavorites = favorites.filter(fav => fav.id !== id);
     setFavorites(updatedFavorites);
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-  };
+    alert('Removed from favorites!');
+  }
+};
 
   return (
     <main className="favorites-page">
@@ -48,11 +53,11 @@ export function Favorite() {
                     View Recipe
                   </Button>
                   <Button 
-                    variant="danger" 
-                    onClick={() => removeFavorite(soup.id)}
-                  >
-                    Remove
-                  </Button>
+  variant="danger" 
+  onClick={() => removeFavorite(soup.id, soup.name)}
+>
+  Remove
+</Button>
                 </div>
               </div>
             </div>
