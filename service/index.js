@@ -52,3 +52,40 @@ let recipes = [
     favorites: 0
   }
 ];
+
+app.get('/api/recipes', (req, res) => {
+  const { continent } = req.query;
+  
+  let filteredRecipes = recipes;
+  
+  if (continent) {
+    filteredRecipes = recipes.filter(r => r.continent === continent);
+  }
+  
+  res.json(filteredRecipes);
+});
+
+app.get('/api/recipes/:id', (req, res) => {
+  const { id } = req.params;
+  const recipe = recipes.find(r => r.id === id);
+
+  if (!recipe) {
+    return res.status(404).json({ msg: 'Recipe not found' });
+  }
+
+  res.json(recipe);
+});
+
+app.get('/api/recipes/continent/:continent', (req, res) => {
+  const { continent } = req.params;
+  const continentRecipes = recipes.filter(
+    r => r.continent.toLowerCase() === continent.toLowerCase()
+  );
+
+  res.json(continentRecipes);
+});
+
+
+app.listen(port, () => {
+  console.log(`Soups Galore service listening on port ${port}`);
+});
