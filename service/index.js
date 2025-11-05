@@ -86,6 +86,33 @@ app.get('/api/recipes/continent/:continent', (req, res) => {
 });
 
 
+app.get('/api/quote', async (req, res) => {
+  try {
+    const response = await fetch('https://api.quotable.io/random');
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch from third-party API');
+    }
+    
+    const data = await response.json();
+    
+
+    res.json({
+      text: data.content,
+      author: data.author
+    });
+  } catch (error) {
+    console.error('Error fetching quote:', error);
+    const fallbackQuotes = [
+      { text: "Good soup warms the soul", author: "Traditional Saying" },
+      { text: "Soup is cuisine's kindest course", author: "Virginia Woolf" }
+    ];
+    const randomQuote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
+    res.json(randomQuote);
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Soups Galore service listening on port ${port}`);
 });
