@@ -69,8 +69,8 @@ export function Account({ userName, authState, onAuthChange }) {
 localStorage.setItem('userName', '');
 const userName = localStorage.getItem('userName');
 
-setInterval(() => {
-  // This will be replaced with WebSocket messages
-  const userName = `User-${Math.floor(Math.random() * 100)}`;
-  displayPeerMessage({ msg: 'Hello', from: userName });
-}, 1000);
+// setInterval(() => {
+//   // This will be replaced with WebSocket messages
+//   const userName = `User-${Math.floor(Math.random() * 100)}`;
+//   displayPeerMessage({ msg: 'Hello', from: userName });
+// }, 1000);

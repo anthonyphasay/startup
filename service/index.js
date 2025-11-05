@@ -55,14 +55,106 @@ let recipes = [
 
 
 /* Authentiction */
+
+// new usr
 app.post('/api/auth/register', async (req, res) => {
   const { email, password, username } = req.body;
 
   if (!email || !password) {
     return res.status(400).json({ msg: 'Email and password are required' });
   }
-}
-)
+
+  if (users[email]) {
+    return res.status(409).json({ msg: 'User already exists' });
+  }
+
+  const passwordHash = await bcrypt.hash(password, 10);
+
+  const user = {
+    email,
+    username: username || email.split('@')[0],
+    passwordHash,
+    favorites: [],
+    createdAt: new Date().toISOString()
+  };
+
+  users[email] = user;
+
+  const token = uuid();
+  authTokens[token] = email;
+
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict'
+  });
+
+  res.json({
+    email: user.email,
+    username: user.username
+  });
+});
+
+// Existing
+app.post('/api/auth/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = users[email];
+
+  if (!user) {
+    return res.status(401).json({ msg: 'Invalid email or password' });
+  }
+
+  const isValid = await bcrypt.compare(password, user.passwordHash);
+
+  if (!isValid) {
+    return res.status(401).json({ msg: 'Invalid email or password' });
+  }
+
+  const token = uuid();
+  authTokens[token] = email;
+
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict'
+  });
+
+  res.json({
+    email: user.email,
+    username: user.username
+  });
+});
+
+app.delete('/api/auth/logout', (req, res) => {
+  const token = req.cookies.token;
+
+  if (token) {
+    delete authTokens[token];
+  }
+
+  res.clearCookie('token');
+  res.status(204).end();
+});
+
+app.get('/api/auth/user', (req, res) => {
+  const token = req.cookies.token;
+
+  if (!token || !authTokens[token]) {
+    return res.status(401).json({ msg: 'Not authenticated' });
+  }
+
+  const email = authTokens[token];
+  const user = users[email];
+
+  res.json({
+    email: user.email,
+    username: user.username,
+    favorites: user.favorites
+  });
+});
+
+
 
 app.get('/api/recipes', (req, res) => {
   const { continent } = req.query;
@@ -97,31 +189,16 @@ app.get('/api/recipes/continent/:continent', (req, res) => {
 });
 
 
-app.get('/api/quote', async (req, res) => {
-  try {
-    const response = await fetch('https://api.quotable.io/random');
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch from third-party API');
-    }
-    
-    const data = await response.json();
-    
+function requireAuth(req, res, next) {
+  const token = req.cookies.token;
 
-    res.json({
-      text: data.content,
-      author: data.author
-    });
-  } catch (error) {
-    console.error('Error fetching quote:', error);
-    const fallbackQuotes = [
-      { text: "Good soup warms the soul", author: "Traditional Saying" },
-      { text: "Soup is cuisine's kindest course", author: "Virginia Woolf" }
-    ];
-    const randomQuote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
-    res.json(randomQuote);
+  if (!token || !authTokens[token]) {
+    return res.status(401).json({ msg: 'Authentication required' });
   }
-});
+
+  req.userEmail = authTokens[token];
+  next();
+}
 
 
 app.get('/api/favorites', requireAuth, (req, res) => {
@@ -188,6 +265,30 @@ app.get('/api/recipes/popular', (req, res) => {
   res.json(popularRecipes);
 });
 
+app.get('/api/quote', async (req, res) => {
+  try {
+    const response = await fetch('https://zenquotes.io/api/random');
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch from third-party API');
+    }
+    
+    const data = await response.json();
+    
+    res.json({
+      text: data[0].q,
+      author: data[0].a  
+    });
+  } catch (error) {
+    console.error('Error fetching quote:', error);
+    const fallbackQuotes = [
+      { text: "Good soup warms the soul", author: "Traditional Saying" },
+      { text: "Soup is cuisine's kindest course", author: "Virginia Woolf" }
+    ];
+    const randomQuote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
+    res.json(randomQuote);
+  }
+});
 
 app.listen(port, () => {
   console.log(`Soups Galore service listening on port ${port}`);
