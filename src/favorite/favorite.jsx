@@ -67,6 +67,8 @@
 //     </main>
 //   );
 // }
+// 
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
@@ -78,24 +80,61 @@ export function Favorite() {
   const [favorites, setFavorites] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [soupToRemove, setSoupToRemove] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const savedFavorites = localStorage.getItem('favorites');
-    if (savedFavorites) {
-      setFavorites(JSON.parse(savedFavorites));
-    }
+    loadFavorites();
   }, []);
+
+  const loadFavorites = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/favorites');
+      
+      if (!response.ok) {
+        if (response.status === 401) {
+          setError('Please login to view your favorites');
+          setLoading(false);
+          return;
+        }
+        throw new Error('Failed to load favorites');
+      }
+
+      const data = await response.json();
+      setFavorites(data);
+      setError('');
+    } catch (err) {
+      console.error('Failed to load favorites:', err);
+      setError('Failed to load favorites. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleRemoveClick = (soup) => {
     setSoupToRemove(soup);
     setShowModal(true);
   };
 
-  const confirmRemove = () => {
+  const confirmRemove = async () => {
     if (soupToRemove) {
-      const updatedFavorites = favorites.filter(fav => fav.id !== soupToRemove.id);
-      setFavorites(updatedFavorites);
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      try {
+        const response = await fetch(`/api/favorites/${soupToRemove.id}`, {
+          method: 'DELETE',
+        });
+
+        if (response.ok) {
+          const updatedFavorites = favorites.filter(fav => fav.id !== soupToRemove.id);
+          setFavorites(updatedFavorites);
+        } else {
+          const error = await response.json();
+          alert(error.msg || 'Failed to remove favorite');
+        }
+      } catch (err) {
+        console.error('Failed to remove favorite:', err);
+        alert('Failed to remove favorite. Please try again.');
+      }
     }
     setShowModal(false);
     setSoupToRemove(null);
@@ -105,6 +144,31 @@ export function Favorite() {
     setShowModal(false);
     setSoupToRemove(null);
   };
+
+  if (loading) {
+    return (
+      <main className="favorites-page">
+        <h1>My Favorite Soups</h1>
+        <div className="no-favorites">
+          <p>Loading your favorites...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="favorites-page">
+        <h1>My Favorite Soups</h1>
+        <div className="no-favorites">
+          <p>{error}</p>
+          <Button variant="primary" onClick={() => navigate('/account')}>
+            Go to Login
+          </Button>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="favorites-page">
@@ -124,11 +188,15 @@ export function Favorite() {
               <img src={soup.image} alt={soup.name} className="favorite-image" />
               <div className="favorite-content">
                 <h3>{soup.name}</h3>
-                <p className="favorite-region">{soup.region}</p>
+                <p className="favorite-region">{soup.continent}</p>
                 <div className="favorite-actions">
                   <Button 
                     variant="primary" 
-                    onClick={() => navigate(soup.path)}
+                    onClick={() => {
+                      // Navigate based on continent
+                      const path = soup.continent.toLowerCase().replace(' ', '');
+                      navigate(`/${path}`);
+                    }}
                   >
                     View Recipe
                   </Button>

@@ -59,20 +59,6 @@ export function Quote() {
       <p style={{fontSize: '14px', color: '#666'}}>
         — {quote?.author}
       </p>
-      {/* <button 
-        onClick={loadQuote}
-        style={{
-          padding: '10px 20px',
-          marginTop: '10px',
-          cursor: 'pointer',
-          border: '1px solid #007bff',
-          borderRadius: '4px',
-          backgroundColor: '#007bff',
-          color: 'white'
-        }}
-      >
-        Get New Quote
-      </button> */}
     </div>
   );
 }
