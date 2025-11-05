@@ -115,7 +115,7 @@ export function Home() {
       <h2>Quote of the day: </h2>
       <Quote/>
       
-      {!loading && recipes.length > 0 && (
+      {/* {!loading && recipes.length > 0 && (
         <div style={{marginTop: '20px'}}>
           <h2 style={{textAlign: 'center'}}>Available Recipes</h2>
           <div style={{textAlign: 'center'}}>
@@ -128,7 +128,7 @@ export function Home() {
             ))}
           </div>
         </div>
-      )}
+      )} */}
     </main>
   );
 }
