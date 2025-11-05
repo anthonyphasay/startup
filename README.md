@@ -111,12 +111,13 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
+- [x] **Node.js/Express HTTP service** - Created Express HTTP service in index.js that listens on port 4000 and handles all API routes.
+- [x] **Static middleware for frontend** - Used express.static('public') middleware to serve frontend React application files.
+- [x] **Calls to third party endpoints** - Backend calls 3rd party API ZenQuotes API at /api/quote endpoint to fetch random inspirational quotes that are displayed on the home page.
+- [x] **Backend service endpoints** - Created multiple service endpoints including /api/recipes for recipe data, /api/favorites for user favorites management, and /api/auth/* routes for authentication.
+- [x] **Frontend calls service endpoints** - Frontend components call endpoints: home.jsx fetches recipes, favorite.jsx manages favorites, all continent pages (asia.jsx, europe.jsx, northAmerica.jsx) add favorites via API, and quotes.jsx retrieves quotes from backend.
+- [x] **Supports registration, login, logout, and restricted endpoint** - Implemented full authentication flow with /api/auth/register for new users, /api/auth/login for existing users, /api/auth/logout for session termination, and protected /api/favorites endpoints that require authentication using HTTP-only cookies and middleware.
+
 
 
 ## 🚀 DB deliverable
