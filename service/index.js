@@ -53,6 +53,17 @@ let recipes = [
   }
 ];
 
+
+/* Authentiction */
+app.post('/api/auth/register', async (req, res) => {
+  const { email, password, username } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ msg: 'Email and password are required' });
+  }
+}
+)
+
 app.get('/api/recipes', (req, res) => {
   const { continent } = req.query;
   
@@ -110,6 +121,71 @@ app.get('/api/quote', async (req, res) => {
     const randomQuote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
     res.json(randomQuote);
   }
+});
+
+
+app.get('/api/favorites', requireAuth, (req, res) => {
+  const user = users[req.userEmail];
+  const favoriteRecipes = recipes.filter(r => user.favorites.includes(r.id));
+  
+  res.json(favoriteRecipes);
+});
+
+
+app.post('/api/favorites/:recipeId', requireAuth, (req, res) => {
+  const { recipeId } = req.params;
+  const user = users[req.userEmail];
+
+
+  const recipe = recipes.find(r => r.id === recipeId);
+  if (!recipe) {
+    return res.status(404).json({ msg: 'Recipe not found' });
+  }
+
+
+  if (user.favorites.includes(recipeId)) {
+    return res.status(400).json({ msg: 'Recipe already favorited' });
+  }
+
+
+  user.favorites.push(recipeId);
+  recipe.favorites++;
+
+  res.json({ msg: 'Recipe added to favorites', favorites: user.favorites });
+});
+
+
+app.delete('/api/favorites/:recipeId', requireAuth, (req, res) => {
+  const { recipeId } = req.params;
+  const user = users[req.userEmail];
+
+  const index = user.favorites.indexOf(recipeId);
+  
+  if (index === -1) {
+    return res.status(400).json({ msg: 'Recipe not in favorites' });
+  }
+
+  user.favorites.splice(index, 1);
+  
+  const recipe = recipes.find(r => r.id === recipeId);
+  if (recipe && recipe.favorites > 0) {
+    recipe.favorites--;
+  }
+
+  res.json({ msg: 'Recipe removed from favorites', favorites: user.favorites });
+});
+
+app.get('/api/recipes/popular', (req, res) => {
+  const popularRecipes = [...recipes]
+    .sort((a, b) => b.favorites - a.favorites)
+    .slice(0, 5)
+    .map(r => ({
+      id: r.id,
+      name: r.name,
+      favorites: r.favorites
+    }));
+
+  res.json(popularRecipes);
 });
 
 
