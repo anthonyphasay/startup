@@ -54,9 +54,9 @@ let recipes = [
 ];
 
 
-/* Authentiction */
+/* Authentication */
 
-// new usr
+// new user
 app.post('/api/auth/register', async (req, res) => {
   const { email, password, username } = req.body;
 
@@ -85,7 +85,7 @@ app.post('/api/auth/register', async (req, res) => {
 
   res.cookie('token', token, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict'
   });
 
@@ -95,7 +95,7 @@ app.post('/api/auth/register', async (req, res) => {
   });
 });
 
-// Existing
+// Existing user
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -116,7 +116,7 @@ app.post('/api/auth/login', async (req, res) => {
 
   res.cookie('token', token, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict'
   });
 
@@ -155,6 +155,7 @@ app.get('/api/auth/user', (req, res) => {
 });
 
 
+/* Recipes */
 
 app.get('/api/recipes', (req, res) => {
   const { continent } = req.query;
@@ -189,6 +190,8 @@ app.get('/api/recipes/continent/:continent', (req, res) => {
 });
 
 
+/* Middleware */
+
 function requireAuth(req, res, next) {
   const token = req.cookies.token;
 
@@ -200,6 +203,8 @@ function requireAuth(req, res, next) {
   next();
 }
 
+
+/* Favorites */
 
 app.get('/api/favorites', requireAuth, (req, res) => {
   const user = users[req.userEmail];
@@ -213,17 +218,14 @@ app.post('/api/favorites/:recipeId', requireAuth, (req, res) => {
   const { recipeId } = req.params;
   const user = users[req.userEmail];
 
-
   const recipe = recipes.find(r => r.id === recipeId);
   if (!recipe) {
     return res.status(404).json({ msg: 'Recipe not found' });
   }
 
-
   if (user.favorites.includes(recipeId)) {
     return res.status(400).json({ msg: 'Recipe already favorited' });
   }
-
 
   user.favorites.push(recipeId);
   recipe.favorites++;
