@@ -1,2 +1,6 @@
-const port = process.argv.length > 2 ? process.argv[2] : 4000;
-app.use(express.static('public'));
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const bcrypt = require('bcryptjs');
+const { v4: uuid } = require('uuid');
+
+const app = express();
