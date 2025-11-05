@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const { v4: uuid } = require('uuid');
+const path = require('path');
 
 const app = express();
 
@@ -298,6 +299,12 @@ app.get('/api/quote', async (req, res) => {
     const randomQuote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
     res.json(randomQuote);
   }
+});
+
+// Return the application's default page if the path is unknown
+// This must be AFTER all API routes so API calls don't get caught
+app.use((_req, res) => {
+  res.sendFile('index.html', { root: 'public' });
 });
 
 app.listen(port, () => {
