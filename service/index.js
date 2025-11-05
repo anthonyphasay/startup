@@ -269,6 +269,11 @@ app.get('/api/recipes/popular', (req, res) => {
 
 app.get('/api/quote', async (req, res) => {
   try {
+    // Try using built-in fetch (Node 18+) or fall back immediately
+    if (typeof fetch === 'undefined') {
+      throw new Error('Fetch not available, using fallback');
+    }
+    
     const response = await fetch('https://zenquotes.io/api/random');
     
     if (!response.ok) {
@@ -283,9 +288,12 @@ app.get('/api/quote', async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching quote:', error);
+    // Fallback quotes when API is unavailable
     const fallbackQuotes = [
       { text: "Good soup warms the soul", author: "Traditional Saying" },
-      { text: "Soup is cuisine's kindest course", author: "Virginia Woolf" }
+      { text: "Soup is cuisine's kindest course", author: "Virginia Woolf" },
+      { text: "Soup is a lot like a family. Each ingredient enhances the others", author: "Unknown" },
+      { text: "Only the pure of heart can make a good soup", author: "Ludwig van Beethoven" }
     ];
     const randomQuote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
     res.json(randomQuote);
