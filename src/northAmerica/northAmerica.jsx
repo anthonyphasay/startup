@@ -94,43 +94,52 @@ export function NorthAmerica() {
   const [modalMessage, setModalMessage] = useState('');
   const [isAlreadyFavorite, setIsAlreadyFavorite] = useState(false);
 
-  const addToFavorites = () => {
-    const soup = {
-      id: 'chickenNoodle',
-      name: 'Chicken Noodle Soup',
-      region: 'North America',
-      image: '/images/chickennoddle2.jpg',
-      path: '/northAmerica'
-    };
+  const addToFavorites = async () => {
+    try {
+      // Recipe ID '1' is Chicken Noodle Soup in the backend
+      const response = await fetch('/api/favorites/1', {
+        method: 'POST',
+      });
 
-    const savedFavorites = localStorage.getItem('favorites');
-    let favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
+      if (!response.ok) {
+        const error = await response.json();
+        if (response.status === 401) {
+          setModalMessage('Please login to add favorites!');
+          setIsAlreadyFavorite(false);
+        } else {
+          setModalMessage(error.msg || 'Chicken Noodle Soup is already in your favorites!');
+          setIsAlreadyFavorite(true);
+        }
+      } else {
+        setModalMessage('Chicken Noodle Soup has been added to your favorites!');
+        setIsAlreadyFavorite(false);
+      }
 
-    const alreadyExists = favorites.some(fav => fav.id === soup.id);
-    
-    if (!alreadyExists) {
-      favorites.push(soup);
-      localStorage.setItem('favorites', JSON.stringify(favorites));
-      setModalMessage('Chicken Noodle Soup has been added to your favorites!');
+      setShowModal(true);
+    } catch (err) {
+      console.error('Failed to add to favorites:', err);
+      setModalMessage('Failed to add to favorites. Please try again.');
       setIsAlreadyFavorite(false);
-    } else {
-      setModalMessage('Chicken Noodle Soup is already in your favorites!');
-      setIsAlreadyFavorite(true);
+      setShowModal(true);
     }
-
-    setShowModal(true);
   };
 
   const handleModalClose = () => {
     setShowModal(false);
-    if (!isAlreadyFavorite) {
+    if (!isAlreadyFavorite && !modalMessage.includes('login')) {
       navigate('/favorites');
+    } else if (modalMessage.includes('login')) {
+      navigate('/account');
     }
   };
 
   const handleViewFavorites = () => {
     setShowModal(false);
-    navigate('/favorites');
+    if (modalMessage.includes('login')) {
+      navigate('/account');
+    } else {
+      navigate('/favorites');
+    }
   };
 
   return (
@@ -191,11 +200,10 @@ export function NorthAmerica() {
         Serve and eat!
       </p>
 
-      {/* Success/Info Modal */}
       <Modal show={showModal} onHide={handleModalClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>
-            {isAlreadyFavorite ? '⭐ Already a Favorite' : '✅ Added to Favorites'}
+            {modalMessage.includes('login') ? '🔒 Login Required' : isAlreadyFavorite ? '⭐ Already a Favorite' : '✅ Added to Favorites'}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -206,7 +214,7 @@ export function NorthAmerica() {
             {isAlreadyFavorite ? 'Close' : 'Stay Here'}
           </Button>
           <Button variant="primary" onClick={handleViewFavorites}>
-            View Favorites
+            {modalMessage.includes('login') ? 'Go to Login' : 'View Favorites'}
           </Button>
         </Modal.Footer>
       </Modal>

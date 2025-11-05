@@ -293,6 +293,7 @@ export function Asia() {
 
   const addToFavorites = async () => {
     try {
+      // Recipe ID '2' is now Vietnamese Pho in the backend
       const response = await fetch('/api/favorites/2', {
         method: 'POST',
       });
