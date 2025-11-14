@@ -190,17 +190,22 @@ app.get('/api/recipes/continent/:continent', async (req, res) => {
 
 /* Middleware */
 
-function requireAuth(req, res, next) {
+async function requireAuth(req, res, next) {
   const token = req.cookies.token;
 
-  if (!token || !authTokens[token]) {
+  if (!token) {
     return res.status(401).json({ msg: 'Authentication required' });
   }
 
-  req.userEmail = authTokens[token];
+  const user = await DB.getUserByToken(token);
+
+  if (!user) {
+    return res.status(401).json({ msg: 'Authentication required' });
+  }
+
+  req.userEmail = user.email;
   next();
 }
-
 
 /* Favorites */
 
