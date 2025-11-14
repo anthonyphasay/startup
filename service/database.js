@@ -17,18 +17,16 @@ const recipeCollection = db.collection('recipes');
   }
 })();
 
-function getUser(email) {
+async function getUser(email) {
   return userCollection.findOne({ email: email });
 }
 
-function getUserByToken(token) {
+async function getUserByToken(token) {
   return userCollection.findOne({ token: token });
 }
 
-async function addUser(user) {
-  await userCollection.insertOne(user);
+async function createUser(user) {
+  const result = await userCollection.insertOne(user);
+  return result;
 }
 
-async function updateUser(user) {
-  await userCollection.updateOne({ email: user.email }, { $set: user });
-}
