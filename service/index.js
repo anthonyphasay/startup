@@ -14,9 +14,45 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 
-//need to replace with DB 
-const users = {};
-const authTokens = {};
+// new user db connections
+app.post('/api/auth/register', async (req, res) => {
+  const { email, password, username } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ msg: 'Email and password are required' });
+  }
+
+  const existingUser = await DB.getUser(email);
+  if (existingUser) {
+    return res.status(409).json({ msg: 'User already exists' });
+  }
+
+  const passwordHash = await bcrypt.hash(password, 10);
+
+  const user = {
+    email,
+    username: username || email.split('@')[0],
+    passwordHash,
+    favorites: [],
+    createdAt: new Date().toISOString()
+  };
+
+  await DB.createUser(user);
+
+  const token = uuid();
+  await DB.addAuthToken(email, token);
+
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict'
+  });
+
+  res.json({
+    email: user.email,
+    username: user.username
+  });
+});
 
 
 let recipes = [
