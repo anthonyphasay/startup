@@ -159,21 +159,17 @@ app.get('/api/auth/user', async (req, res) => {
 
 /* Recipes */
 
-app.get('/api/recipes', (req, res) => {
+app.get('/api/recipes', async (req, res) => {
   const { continent } = req.query;
   
-  let filteredRecipes = recipes;
+  const recipes = await DB.getAllRecipes(continent || null);
   
-  if (continent) {
-    filteredRecipes = recipes.filter(r => r.continent === continent);
-  }
-  
-  res.json(filteredRecipes);
+  res.json(recipes);
 });
 
-app.get('/api/recipes/:id', (req, res) => {
+app.get('/api/recipes/:id', async (req, res) => {
   const { id } = req.params;
-  const recipe = recipes.find(r => r.id === id);
+  const recipe = await DB.getRecipeById(id);
 
   if (!recipe) {
     return res.status(404).json({ msg: 'Recipe not found' });
@@ -182,14 +178,14 @@ app.get('/api/recipes/:id', (req, res) => {
   res.json(recipe);
 });
 
-app.get('/api/recipes/continent/:continent', (req, res) => {
+app.get('/api/recipes/continent/:continent', async (req, res) => {
   const { continent } = req.params;
-  const continentRecipes = recipes.filter(
-    r => r.continent.toLowerCase() === continent.toLowerCase()
-  );
+  const continentRecipes = await DB.getAllRecipes(continent);
 
   res.json(continentRecipes);
 });
+
+
 
 
 /* Middleware */
