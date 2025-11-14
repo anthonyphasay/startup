@@ -30,3 +30,26 @@ async function createUser(user) {
   return result;
 }
 
+async function updateUser(email, updates) {
+  const result = await userCollection.updateOne(
+    { email: email },
+    { $set: updates }
+  );
+  return result;
+}
+
+async function addUserFavorite(email, recipeId) {
+  const result = await userCollection.updateOne(
+    { email: email },
+    { $addToSet: { favorites: recipeId } }
+  );
+  return result;
+}
+
+async function removeUserFavorite(email, recipeId) {
+  const result = await userCollection.updateOne(
+    { email: email },
+    { $pull: { favorites: recipeId } }
+  );
+  return result;
+}
