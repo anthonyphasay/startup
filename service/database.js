@@ -53,3 +53,27 @@ async function removeUserFavorite(email, recipeId) {
   );
   return result;
 }
+
+
+// recipes
+async function getAllRecipes(continent = null) {
+  const query = continent ? { continent: continent } : {};
+  return recipeCollection.find(query).toArray();
+}
+
+async function getRecipeById(id) {
+  return recipeCollection.findOne({ id: id });
+}
+
+async function createRecipe(recipe) {
+  const result = await recipeCollection.insertOne(recipe);
+  return result;
+}
+
+async function updateRecipe(id, updates) {
+  const result = await recipeCollection.updateOne(
+    { id: id },
+    { $set: updates }
+  );
+  return result;
+}
