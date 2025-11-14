@@ -209,19 +209,25 @@ async function requireAuth(req, res, next) {
 
 /* Favorites */
 
-app.get('/api/favorites', requireAuth, (req, res) => {
-  const user = users[req.userEmail];
-  const favoriteRecipes = recipes.filter(r => user.favorites.includes(r.id));
+app.get('/api/favorites', requireAuth, async (req, res) => {
+  const user = await DB.getUser(req.userEmail);
+  
+  if (!user || !user.favorites || user.favorites.length === 0) {
+    return res.json([]);
+  }
+
+  const allRecipes = await DB.getAllRecipes();
+  const favoriteRecipes = allRecipes.filter(r => user.favorites.includes(r.id));
   
   res.json(favoriteRecipes);
 });
 
 
-app.post('/api/favorites/:recipeId', requireAuth, (req, res) => {
+app.post('/api/favorites/:recipeId', requireAuth, async (req, res) => {
   const { recipeId } = req.params;
-  const user = users[req.userEmail];
+  const user = await DB.getUser(req.userEmail);
 
-  const recipe = recipes.find(r => r.id === recipeId);
+  const recipe = await DB.getRecipeById(recipeId);
   if (!recipe) {
     return res.status(404).json({ msg: 'Recipe not found' });
   }
@@ -230,45 +236,41 @@ app.post('/api/favorites/:recipeId', requireAuth, (req, res) => {
     return res.status(400).json({ msg: 'Recipe already favorited' });
   }
 
-  user.favorites.push(recipeId);
-  recipe.favorites++;
+  await DB.addUserFavorite(req.userEmail, recipeId);
+  await DB.incrementRecipeFavorites(recipeId);
 
-  res.json({ msg: 'Recipe added to favorites', favorites: user.favorites });
+  const updatedUser = await DB.getUser(req.userEmail);
+  res.json({ msg: 'Recipe added to favorites', favorites: updatedUser.favorites });
 });
 
 
-app.delete('/api/favorites/:recipeId', requireAuth, (req, res) => {
+app.delete('/api/favorites/:recipeId', requireAuth, async (req, res) => {
   const { recipeId } = req.params;
-  const user = users[req.userEmail];
+  const user = await DB.getUser(req.userEmail);
 
-  const index = user.favorites.indexOf(recipeId);
-  
-  if (index === -1) {
+  if (!user.favorites.includes(recipeId)) {
     return res.status(400).json({ msg: 'Recipe not in favorites' });
   }
 
-  user.favorites.splice(index, 1);
+  await DB.removeUserFavorite(req.userEmail, recipeId);
+  await DB.decrementRecipeFavorites(recipeId);
+
+  const updatedUser = await DB.getUser(req.userEmail);
+  res.json({ msg: 'Recipe removed from favorites', favorites: updatedUser.favorites });
+});
+
+app.get('/api/recipes/popular', async (req, res) => {
+  const popularRecipes = await DB.getPopularRecipes(5);
   
-  const recipe = recipes.find(r => r.id === recipeId);
-  if (recipe && recipe.favorites > 0) {
-    recipe.favorites--;
-  }
+  const response = popularRecipes.map(r => ({
+    id: r.id,
+    name: r.name,
+    favorites: r.favorites
+  }));
 
-  res.json({ msg: 'Recipe removed from favorites', favorites: user.favorites });
+  res.json(response);
 });
 
-app.get('/api/recipes/popular', (req, res) => {
-  const popularRecipes = [...recipes]
-    .sort((a, b) => b.favorites - a.favorites)
-    .slice(0, 5)
-    .map(r => ({
-      id: r.id,
-      name: r.name,
-      favorites: r.favorites
-    }));
-
-  res.json(popularRecipes);
-});
 
 app.get('/api/quote', async (req, res) => {
   try {
