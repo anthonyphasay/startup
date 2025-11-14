@@ -101,3 +101,38 @@ async function getPopularRecipes(limit = 5) {
     .limit(limit)
     .toArray();
 }
+
+// authentication tokens to store users
+async function addAuthToken(email, token) {
+  const result = await userCollection.updateOne(
+    { email: email },
+    { $set: { token: token, lastLogin: new Date().toISOString() } }
+  );
+  return result;
+}
+
+async function removeAuthToken(token) {
+  const result = await userCollection.updateOne(
+    { token: token },
+    { $unset: { token: "" } }
+  );
+  return result;
+}
+
+module.exports = {
+  getUser,
+  getUserByToken,
+  createUser,
+  updateUser,
+  addUserFavorite,
+  removeUserFavorite,
+  getAllRecipes,
+  getRecipeById,
+  createRecipe,
+  updateRecipe,
+  incrementRecipeFavorites,
+  decrementRecipeFavorites,
+  getPopularRecipes,
+  addAuthToken,
+  removeAuthToken
+};
