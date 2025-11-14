@@ -4,7 +4,8 @@ const config = require('./dbConfig.json');
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
 const db = client.db('startup');
-const recipes = db.recipes('cookie');
+const userCollection = db.collection('users');
+const recipeCollection = db.collection('recipes');
 
 (async function testConnection() {
   try {
@@ -15,16 +16,6 @@ const recipes = db.recipes('cookie');
     process.exit(1);
   }
 })();
-
-try {
-    const cookie = {
-        name: "Cookie",
-        summary: "testing a sugar cookie",
-    };
-    await recipes.insertOne(cookie);
-} catch (ex) {
-    console.log("Hello");
-}
 
 function getUser(email) {
   return userCollection.findOne({ email: email });
