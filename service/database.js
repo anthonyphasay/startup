@@ -77,3 +77,27 @@ async function updateRecipe(id, updates) {
   );
   return result;
 }
+
+async function incrementRecipeFavorites(id) {
+  const result = await recipeCollection.updateOne(
+    { id: id },
+    { $inc: { favorites: 1 } }
+  );
+  return result;
+}
+
+async function decrementRecipeFavorites(id) {
+  const result = await recipeCollection.updateOne(
+    { id: id },
+    { $inc: { favorites: -1 } }
+  );
+  return result;
+}
+
+async function getPopularRecipes(limit = 5) {
+  return recipeCollection
+    .find()
+    .sort({ favorites: -1 })
+    .limit(limit)
+    .toArray();
+}
