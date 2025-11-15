@@ -274,7 +274,6 @@ app.get('/api/recipes/popular', async (req, res) => {
 
 app.get('/api/quote', async (req, res) => {
   try {
-    // Try using built-in fetch (Node 18+) or fall back immediately
     if (typeof fetch === 'undefined') {
       throw new Error('Fetch not available, using fallback');
     }

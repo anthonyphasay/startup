@@ -124,8 +124,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
+- [x] **Stores data in MongoDB** - Implemented mongodb database with 'users' for storing user information (email, username, favorites array, authentication tokens) and 'recipes' for storing all recipe data (ingredients, instructions, images, favorites count). Created database.js for storing user read write information
+- [x] **Stores credentials in MongoDB** - User credentials are securely stored in the MongoDB 'users' collection. Implemented authentication system with tokens to validate users.
+
 
 ## 🚀 WebSocket deliverable
 
