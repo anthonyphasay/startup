@@ -310,6 +310,14 @@ app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
+// Create HTTP server and setup WebSocket
+const httpServer = app.listen(port, () => {
+  console.log(`Soups Galore service listening on port ${port}`);
+  console.log(`HTTP server: http://localhost:${port}`);
+  console.log(`WebSocket server: ws://localhost:${port}/ws`);
+});
+
 app.listen(port, () => {
   console.log(`Soups Galore service listening on port ${port}`);
 });
+
