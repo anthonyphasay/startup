@@ -1,15 +1,13 @@
-/* Notification Component Styles */
+/* Notification Component Styles - Right-aligned Below Navbar */
 /* Save this as: src/components/Notifications.css */
 
 .notifications-container {
   position: fixed;
   top: 70px;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 20px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 10px;
   max-width: 350px;
 }
@@ -129,9 +127,8 @@
 @media (max-width: 768px) {
   .notifications-container {
     top: 60px;
-    left: 10px;
     right: 10px;
-    transform: none;
+    left: 10px;
     max-width: none;
   }
 
