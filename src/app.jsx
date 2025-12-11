@@ -343,6 +343,8 @@ import {
   Dropdown,
   DropdownButton,
   Button,
+  Toast,
+  ToastContainer,
 } from 'react-bootstrap';
 import './app.css';
 
@@ -355,11 +357,47 @@ import { World } from './world/world';
 import { Home } from './home/home';
 import { Favorite } from './favorite/favorite';
 import { AuthState } from './account/authState';
+import wsService from './services/websocket';
 
 export default function App() {
   const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
   const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
   const [authState, setAuthState] = React.useState(currentAuthState);
+  const [notifications, setNotifications] = React.useState([]);
+  const [wsConnected, setWsConnected] = React.useState(false);
+
+  // Initialize WebSocket connection
+  React.useEffect(() => {
+    // Connect to WebSocket
+    wsService.connect();
+
+    // Listen for connection status
+    const removeConnectionListener = wsService.addListener('connection', (data) => {
+      setWsConnected(data.connected);
+    });
+
+    // Listen for favorite notifications
+    const removeFavoriteListener = wsService.addListener('favoriteAdded', (data) => {
+      const notification = {
+        id: Date.now(),
+        message: `${data.user} just favorited ${data.recipe}!`,
+        timestamp: data.timestamp
+      };
+      setNotifications(prev => [...prev, notification]);
+
+      // Auto-remove notification after 5 seconds
+      setTimeout(() => {
+        setNotifications(prev => prev.filter(n => n.id !== notification.id));
+      }, 5000);
+    });
+
+    // Cleanup on unmount
+    return () => {
+      removeConnectionListener();
+      removeFavoriteListener();
+      wsService.disconnect();
+    };
+  }, []);
 
   // Sync localStorage changes with state
   React.useEffect(() => {
@@ -376,13 +414,17 @@ export default function App() {
   const handleAuthChange = (newUserName, newAuthState) => {
     setAuthState(newAuthState);
     setUserName(newUserName);
-    
+
     // Update localStorage based on auth state
     if (newAuthState === AuthState.Authenticated) {
       localStorage.setItem('userName', newUserName);
     } else {
       localStorage.removeItem('userName');
     }
+  };
+
+  const removeNotification = (id) => {
+    setNotifications(prev => prev.filter(n => n.id !== id));
   };
 
   return ( 
@@ -444,6 +486,32 @@ export default function App() {
           <p>© 2025 Tony Phasay @ Soups Galore</p>
         </footer>
       </div>
+
+      {/* WebSocket Notifications */}
+      <ToastContainer position="top-end" className="p-3" style={{ position: 'fixed', top: 70, right: 20, zIndex: 9999 }}>
+        {wsConnected && (
+          <Toast bg="success" onClose={() => {}} style={{ marginBottom: '10px' }}>
+            <Toast.Header closeButton={false}>
+              <strong className="me-auto">WebSocket</strong>
+            </Toast.Header>
+            <Toast.Body className="text-white">Connected to live updates</Toast.Body>
+          </Toast>
+        )}
+        {notifications.map(notification => (
+          <Toast
+            key={notification.id}
+            onClose={() => removeNotification(notification.id)}
+            bg="info"
+            style={{ marginBottom: '10px' }}
+          >
+            <Toast.Header>
+              <strong className="me-auto">New Favorite</strong>
+              <small>just now</small>
+            </Toast.Header>
+            <Toast.Body className="text-white">{notification.message}</Toast.Body>
+          </Toast>
+        ))}
+      </ToastContainer>
     </BrowserRouter>
   );
 }

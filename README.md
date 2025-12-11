@@ -132,8 +132,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Backend listens for WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Frontend makes WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Data sent over WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **WebSocket data displayed** - I did not complete this part of the deliverable.
-- [ ] **Application is fully functional** - I did not complete this part of the deliverable.
+- [x] **Backend listens for WebSocket connection** - Implemented WebSocket server in service/index.js using the 'ws' library. The server handles HTTP upgrade requests and maintains a Map of all connected clients with unique connection IDs.
+- [x] **Frontend makes WebSocket connection** - Created WebSocketService class in src/services/websocket.js that establishes WebSocket connection with automatic reconnection logic. The service connects on app initialization via React useEffect hook in app.jsx.
+- [x] **Data sent over WebSocket connection** - Backend broadcasts real-time notifications when users favorite recipes. The POST /api/favorites/:recipeId endpoint calls broadcastToAll() to send favorite notifications to all connected WebSocket clients with recipe name, username, and timestamp.
+- [x] **WebSocket data displayed** - Frontend displays real-time notifications using React Bootstrap Toast components in top-right corner. Shows "Connected to live updates" status and displays favorite notifications like "User just favorited Recipe!" that auto-dismiss after 5 seconds.
+- [x] **Application is fully functional** - All WebSocket functionality is working. Multiple users can see real-time notifications when anyone favorites a recipe. Connection automatically reconnects if dropped. Properly configured vite.config.js to proxy WebSocket connections during development.

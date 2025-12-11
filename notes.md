@@ -98,3 +98,105 @@ Handling the toggling of the checkboxes was particularly interesting.
   ))}
 </div>
 ```
+
+## WebSocket Implementation
+
+Implemented full WebSocket support for real-time notifications. This was incredibly rewarding to see the live updates working!
+
+### Backend WebSocket Server
+
+- Installed the `ws` library for WebSocket support on the backend
+- Created a WebSocket server in service/index.js that upgrades HTTP connections
+- Implemented connection management using a Map to track all connected clients
+- Added a broadcast function that sends messages to all connected clients
+- Integrated WebSocket notifications with the favorites API - when a user favorites a recipe, all connected clients receive a real-time notification
+
+Key learnings:
+- WebSocket servers need to handle the HTTP upgrade protocol
+- The `noServer: true` option allows the WebSocket server to share the same HTTP server instance
+- Connection state management is crucial - need to track which clients are connected and remove them on disconnect
+
+```javascript
+// WebSocket Server Setup
+const wss = new WebSocketServer({ noServer: true });
+const connections = new Map();
+
+wss.on('connection', (ws) => {
+  const connectionId = uuid();
+  connections.set(connectionId, ws);
+
+  ws.on('message', (message) => {
+    const data = JSON.parse(message);
+    // Handle messages
+  });
+
+  ws.on('close', () => {
+    connections.delete(connectionId);
+  });
+});
+
+// Handle upgrade from HTTP to WebSocket
+server.on('upgrade', (request, socket, head) => {
+  wss.handleUpgrade(request, socket, head, (ws) => {
+    wss.emit('connection', ws, request);
+  });
+});
+```
+
+### Frontend WebSocket Client
+
+- Created a WebSocketService class (src/services/websocket.js) to manage the WebSocket connection
+- Implemented automatic reconnection with exponential backoff
+- Built an event listener system to handle different message types
+- Used React hooks to connect WebSocket to the UI and display real-time notifications
+
+Key learnings:
+- WebSocket URLs use `ws://` (or `wss://` for secure) protocol instead of `http://`
+- In development, need to connect directly to the backend port (4000)
+- In production, can use the same host as the web page
+- Automatic reconnection is essential for a robust real-time experience
+- React's useEffect cleanup function is perfect for managing WebSocket lifecycle
+
+```javascript
+// WebSocket connection with auto-reconnect
+connect() {
+  const wsUrl = import.meta.env.DEV
+    ? `ws://localhost:4000`
+    : `${protocol}//${host}`;
+
+  this.ws = new WebSocket(wsUrl);
+
+  this.ws.onclose = () => {
+    this.scheduleReconnect();
+  };
+}
+```
+
+### Vite Configuration
+
+- Configured vite.config.js to proxy WebSocket requests during development
+- Added `/ws` proxy with `ws: true` option to enable WebSocket protocol handling
+- This allows the dev server to forward WebSocket connections to the backend
+
+```javascript
+export default defineConfig({
+  server: {
+    proxy: {
+      '/api': 'http://localhost:4000',
+      '/ws': {
+        target: 'ws://localhost:4000',
+        ws: true,
+      },
+    },
+  },
+});
+```
+
+### UI Integration
+
+- Used React Bootstrap Toast components to display notifications
+- Implemented automatic notification dismissal after 5 seconds
+- Added visual indicator for WebSocket connection status
+- Notifications appear when users favorite recipes in real-time
+
+The coolest part was seeing multiple browser windows receive notifications when one user favorites a recipe. It really brings the app to life!

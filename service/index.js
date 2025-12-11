@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const { v4: uuid } = require('uuid');
 const path = require('path');
 const DB = require('./database.js');
+const { WebSocketServer } = require('ws');
 
 const app = express();
 
@@ -223,6 +224,9 @@ app.get('/api/favorites', requireAuth, async (req, res) => {
 });
 
 
+// Placeholder for broadcast function - will be set after WebSocket server is created
+let broadcastToAll = null;
+
 app.post('/api/favorites/:recipeId', requireAuth, async (req, res) => {
   const { recipeId } = req.params;
   const user = await DB.getUser(req.userEmail);
@@ -240,6 +244,18 @@ app.post('/api/favorites/:recipeId', requireAuth, async (req, res) => {
   await DB.incrementRecipeFavorites(recipeId);
 
   const updatedUser = await DB.getUser(req.userEmail);
+
+  // Broadcast to all connected WebSocket clients
+  if (broadcastToAll) {
+    broadcastToAll({
+      type: 'favoriteAdded',
+      user: user.username,
+      recipe: recipe.name,
+      recipeId: recipe.id,
+      timestamp: new Date().toISOString()
+    });
+  }
+
   res.json({ msg: 'Recipe added to favorites', favorites: updatedUser.favorites });
 });
 
@@ -310,6 +326,66 @@ app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Soups Galore service listening on port ${port}`);
 });
+
+// WebSocket Server Setup
+const wss = new WebSocketServer({ noServer: true });
+
+// Store connected clients
+const connections = new Map();
+
+wss.on('connection', (ws) => {
+  const connectionId = uuid();
+  connections.set(connectionId, ws);
+
+  console.log(`New WebSocket connection: ${connectionId}`);
+
+  ws.on('message', (message) => {
+    try {
+      const data = JSON.parse(message);
+      console.log('Received WebSocket message:', data);
+
+      // Handle different message types if needed
+      if (data.type === 'ping') {
+        ws.send(JSON.stringify({ type: 'pong' }));
+      }
+    } catch (err) {
+      console.error('Error parsing WebSocket message:', err);
+    }
+  });
+
+  ws.on('close', () => {
+    console.log(`WebSocket connection closed: ${connectionId}`);
+    connections.delete(connectionId);
+  });
+
+  ws.on('error', (error) => {
+    console.error(`WebSocket error for ${connectionId}:`, error);
+  });
+
+  // Send a welcome message
+  ws.send(JSON.stringify({
+    type: 'connection',
+    message: 'Connected to Soups Galore WebSocket server'
+  }));
+});
+
+// Handle upgrade from HTTP to WebSocket
+server.on('upgrade', (request, socket, head) => {
+  wss.handleUpgrade(request, socket, head, (ws) => {
+    wss.emit('connection', ws, request);
+  });
+});
+
+// Broadcast function to send messages to all connected clients
+broadcastToAll = function(message) {
+  const messageString = JSON.stringify(message);
+  connections.forEach((ws) => {
+    if (ws.readyState === 1) { // 1 = OPEN
+      ws.send(messageString);
+    }
+  });
+};
+
