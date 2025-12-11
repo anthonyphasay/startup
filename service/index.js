@@ -317,7 +317,12 @@ const httpServer = app.listen(port, () => {
   console.log(`WebSocket server: ws://localhost:${port}/ws`);
 });
 
-app.listen(port, () => {
-  console.log(`Soups Galore service listening on port ${port}`);
-});
+// Setup WebSocket for real-time notifications
+setupWebSocket(httpServer);
+
+console.log('✅ HTTP and WebSocket servers are running');
+
+// app.listen(port, () => {
+//   console.log(`Soups Galore service listening on port ${port}`);
+// });
 
