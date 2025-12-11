@@ -3,11 +3,13 @@
 
 .notifications-container {
   position: fixed;
-  top: 80px;
-  right: 20px;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
   max-width: 350px;
 }
@@ -23,7 +25,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   font-size: 14px;
   font-weight: 500;
-  align-self: flex-end;
 }
 
 .connection-status.connected {
@@ -127,9 +128,10 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .notifications-container {
-    top: 70px;
-    right: 10px;
+    top: 60px;
     left: 10px;
+    right: 10px;
+    transform: none;
     max-width: none;
   }
 
