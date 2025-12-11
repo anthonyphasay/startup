@@ -74,6 +74,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './favorite.css';
+import { useWebSocket } from '../hooks/useWebSocket';
 
 export function Favorite() {
   const navigate = useNavigate();
@@ -82,6 +83,9 @@ export function Favorite() {
   const [soupToRemove, setSoupToRemove] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  
+  // WebSocket hook for real-time notifications
+  const { notifyRecipeUnfavorited } = useWebSocket();
 
   useEffect(() => {
     loadFavorites();
@@ -127,6 +131,10 @@ export function Favorite() {
         if (response.ok) {
           const updatedFavorites = favorites.filter(fav => fav.id !== soupToRemove.id);
           setFavorites(updatedFavorites);
+          
+          // Broadcast unfavorite via WebSocket
+          const username = localStorage.getItem('userName') || 'Anonymous';
+          notifyRecipeUnfavorited(soupToRemove.name, username);
         } else {
           const error = await response.json();
           alert(error.msg || 'Failed to remove favorite');

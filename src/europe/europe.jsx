@@ -229,12 +229,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useWebSocket } from '../hooks/useWebSocket';
 
 export function Europe() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isAlreadyFavorite, setIsAlreadyFavorite] = useState(false);
+  
+  // WebSocket hook for real-time notifications
+  const { notifyRecipeFavorited } = useWebSocket();
 
   const addToFavorites = async () => {
     try {
@@ -255,6 +259,10 @@ export function Europe() {
       } else {
         setModalMessage('Italian Wedding Soup has been added to your favorites!');
         setIsAlreadyFavorite(false);
+        
+        // Broadcast favorite via WebSocket
+        const username = localStorage.getItem('userName') || 'Anonymous';
+        notifyRecipeFavorited('Italian Wedding Soup', username);
       }
 
       setShowModal(true);
