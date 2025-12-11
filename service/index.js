@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const { v4: uuid } = require('uuid');
 const path = require('path');
 const DB = require('./database.js');
-const { setupWebSocket } = require('./websocket-server.js'); 
+const { setupWebSocket } = require('./websocket-server.js');
 
 const app = express();
 
@@ -322,8 +322,3 @@ const httpServer = app.listen(port, () => {
 setupWebSocket(httpServer);
 
 console.log('✅ HTTP and WebSocket servers are running');
-
-// app.listen(port, () => {
-//   console.log(`Soups Galore service listening on port ${port}`);
-// });
-

@@ -125,3 +125,18 @@ function broadcastToOthers(sender, message) {
 
 module.exports = { setupWebSocket };
 
+
+// ===========================================
+// ADD THIS TO YOUR service/index.js:
+// ===========================================
+/*
+const { setupWebSocket } = require('./websocket-server');
+
+// After creating your Express app but before app.listen():
+const httpServer = app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
+
+// Setup WebSocket
+setupWebSocket(httpServer);
+*/
