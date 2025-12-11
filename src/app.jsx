@@ -355,6 +355,7 @@ import { World } from './world/world';
 import { Home } from './home/home';
 import { Favorite } from './favorite/favorite';
 import { AuthState } from './account/authState';
+import { Notifications } from './components/Notifications';
 
 export default function App() {
   const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
@@ -415,6 +416,8 @@ export default function App() {
           </div>
         </nav>
       </header>
+
+      <Notifications />
 
       <Routes>
         <Route path='/' element={<Home />} exact />
