@@ -132,8 +132,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Backend listens for WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Frontend makes WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Data sent over WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **WebSocket data displayed** - I did not complete this part of the deliverable.
-- [ ] **Application is fully functional** - I did not complete this part of the deliverable.
+- [x] **Backend listens for WebSocket connection** - My backend creates a WebSocket server using the ws npm package in service/websocket-server.js. The setupWebSocket() function is called in service/index.js which listens for WebSocket upgrade requests on the HTTP server. When a user connects, the backend logs "New WebSocket connection established" and tracks all active connections.
+
+- [x] **Frontend makes WebSocket connection** - My frontend establishes a WebSocket connection through the useWebSocket hook in src/hooks/useWebSocket.jsx. The hook creates a WebSocket connection when the Notifications component mounts, connecting to ws://localhost:4000/ws in development. The connection status is tracked with state and displayed in the UI via a connection badge.
+
+- [x] **Data sent over WebSocket connection** - When users favorite or unfavorite recipes, my application sends WebSocket messages containing the action type, recipe name, and username. The notifyRecipeFavorited() function is called in asia.jsx, europe.jsx, and northAmerica.jsx after successful API calls. The notifyRecipeUnfavorited() function is called in favorite.jsx when removing recipes. Messages are sent in JSON format with type, recipeName, and username fields.
+
+- [x] **WebSocket data displayed** - My application displays WebSocket data in real-time through the Notifications component in src/components/Notifications.jsx.  Notifications automatically dismiss after 5 seconds.
+
+- [x] **Application is fully functional** - The WebSocket implementation is complete and fully integrated with my existing MongoDB database and authentication system. Users can register, login, favorite recipes, and see real-time notifications across all connected browser windows. All data persists in MongoDB, and there are no mock implementations or placeholder features.
